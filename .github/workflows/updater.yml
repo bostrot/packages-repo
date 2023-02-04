@@ -32,10 +32,15 @@ jobs:
         }
         echo "Changes were made."
         exit 0
+
+    # Install chocolatey
+    - name: Install chocolatey
+      if: steps.check-changes.outputs.exit_code == 0
+      run: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
   
     - name: Pack and push packages
       if: steps.check-changes.outputs.exit_code == 0
-      uses: crazy-max/ghaction-chocolatey@v2
       run: |
         # Get a list of changed folders
         changed_folders=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^choco/" | xargs dirname | sort -u)
