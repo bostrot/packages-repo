@@ -42,16 +42,27 @@ jobs:
     - name: Pack and push packages
       if: steps.check-changes.outputs.exit_code == 0
       run: |
-        # Get a list of changed folders
-        changed_folders=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^choco/" | xargs dirname | sort -u)
-        
-        # Pack only changed folders
-        for folder in $changed_folders; do
-          echo "Packing $folder..."
-          choco pack $folder -y
-          echo "Pushing $folder..."
-          choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
-        done
+        # if file is modified, commit and push
+        $git_status = $(git status -s)
+        $list = @()
+        for ($i = 0; $i -lt $git_status.Length; $i++) {
+            # Contains "choco"
+            if ($git_status[$i].Contains("choco")) {
+                # Split after second / and use first part and echo that
+                $folder = $git_status[$i].Split("/")
+                $folder = "choco/" + $folder[1]
+                # Check if folder is already in list
+                if ($list.Contains($folder)) {
+                    continue
+                }
+                # Add to list
+                $list += $folder
+                Write-Host "Packing $folder..."
+                choco pack $folder -y || exit 0
+                Write-Host "Pushing $folder..."
+                choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}; 
+            }
+        }
     
     - name: Commit changes
       if: steps.check-changes.outputs.exit_code == 0
