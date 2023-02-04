@@ -28,10 +28,25 @@ jobs:
       run: |
         if (git diff --exit-code) {
           echo "No changes were made."
-          exit 0
+          exit 1
         }
-
         echo "Changes were made."
+        exit 0
+  
+    - name: Pack and push packages
+      if: steps.check-changes.outputs.exit_code == 0
+      uses: crazy-max/ghaction-chocolatey@v2
+      run: |
+        # Get a list of changed folders
+        changed_folders=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^choco/" | xargs dirname | sort -u)
+        
+        # Pack only changed folders
+        for folder in $changed_folders; do
+          echo "Packing $folder..."
+          choco pack $folder -y
+          echo "Pushing $folder..."
+          choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
+        done
     
     - name: Commit changes
       if: steps.check-changes.outputs.exit_code == 0
