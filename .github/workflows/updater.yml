@@ -29,16 +29,16 @@ jobs:
       env:
         CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
 
-
     - name: Check if changes were made
       id: check-changes
       run: |
         if (git diff --exit-code) {
-          echo "No changes were made."
+          echo "Changes were made"
+          exit 0
+        } else {
+          echo "No changes were made"
           exit 1
         }
-        echo "Changes were made."
-        exit 0
     
     - name: Commit changes
       if: steps.check-changes.outcome == 'success'
