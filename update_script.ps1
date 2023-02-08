@@ -32,9 +32,9 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
 
             # Try packing or skip if it fails
             Write-Host "Packing $folder v$version..."
-            choco pack ./choco/$folder -y || echo "Failed to pack $folder v$version"
+            choco pack ./choco/$folder/$folder.nuspec -y || echo "Failed to pack $folder v$version"
             Write-Host "Pushing $folder v$version..."
-            choco push ./choco/$folder/*.nupkg --source https://push.chocolatey.org/ --api-key $CHOCO_API_KEY ||
+            choco push ./choco/$folder/$folder*.nupkg --source https://push.chocolatey.org/ --api-key $CHOCO_API_KEY ||
                 echo "Failed to push $folder v$version"
         }
     }
