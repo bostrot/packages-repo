@@ -24,17 +24,18 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
                 ForEach-Object { $_.Matches.Value } |
                 ForEach-Object { $_.Split(">")[1] } |
                 ForEach-Object { $_.Split("<")[0] })
-            
+
             # Commit update
             Write-Host "Committing $folder v$version..."
             git add ./choco/$folder
             git commit -m "Updated $folder v$version"
 
             # Try packing or skip if it fails
+            cd ./choco/$folder
             Write-Host "Packing $folder v$version..."
-            choco pack ./choco/$folder/$folder.nuspec -y || echo "Failed to pack $folder v$version"
+            choco pack -y || echo "Failed to pack $folder v$version"
             Write-Host "Pushing $folder v$version..."
-            choco push ./choco/$folder/$folder*.nupkg --source https://push.chocolatey.org/ --api-key $env:CHOCO_API_KEY ||
+            choco push --source https://push.chocolatey.org/ --api-key $env:CHOCO_API_KEY ||
                 echo "Failed to push $folder v$version"
         }
     }
