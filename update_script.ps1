@@ -1,3 +1,7 @@
+# Setup git
+git config --global user.email "eric@bostrot.com"
+git config --global user.name "Eric"
+
 # Check if there are any changes in the choco folder
 $folders = Get-ChildItem -Path ./choco -Directory
 for ($i = 0; $i -lt $folders.Length; $i++) {
@@ -28,9 +32,10 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
 
             # Try packing or skip if it fails
             Write-Host "Packing $folder v$version..."
-            choco pack $folder -y || continue
+            choco pack $folder -y || echo "Failed to pack $folder v$version"
             Write-Host "Pushing $folder v$version..."
-            choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key $CHOCO_API_KEY; 
+            choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key $CHOCO_API_KEY ||
+                echo "Failed to push $folder v$version"
         }
     }
 }
