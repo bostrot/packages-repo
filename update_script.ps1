@@ -30,7 +30,7 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
             Write-Host "Packing $folder v$version..."
             choco pack $folder -y || continue
             Write-Host "Pushing $folder v$version..."
-            choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}; 
+            choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key $CHOCO_API_KEY; 
         }
     }
 }

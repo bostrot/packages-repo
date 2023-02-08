@@ -26,6 +26,9 @@ jobs:
   
     - name: Run update script
       run: ./update_script.ps1
+      env:
+        CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+
 
     - name: Check if changes were made
       id: check-changes
