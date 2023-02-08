@@ -34,14 +34,14 @@ jobs:
       run: |
         if (git diff --exit-code) {
           echo "Changes were made"
-          exit 0
+          echo "::set-output name=changes::true"
         } else {
           echo "No changes were made"
-          exit 1
+          echo "::set-output name=changes::false"
         }
     
     - name: Commit changes
-      if: steps.check-changes.outcome == 'success'
+      if: steps.check-changes.output.changes == 'true'
       run: |
         git config --local user.email "eric@bostrot.com"
         git config --local user.name "Eric"
@@ -49,7 +49,7 @@ jobs:
         git commit -m "Update package"
 
     - name: Push changes
-      if: steps.check-changes.outcome == 'success'
+      if: steps.check-changesoutput.changes == 'true'
       uses: ad-m/github-push-action@v0.6.0
       with:
         github_token: ${{ env.GITHUB_TOKEN }}
