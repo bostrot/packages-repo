@@ -23,7 +23,7 @@
     <projectUrl>https://www.cherry.de/service/software/keys</projectUrl>
     <!-- There are a number of CDN Services that can be used for hosting the Icon for a package. More information can be found here: https://docs.chocolatey.org/en-us/create/create-packages#package-icon-guidelines -->
     <!-- Here is an example using Githack -->
-    <!--<iconUrl>http://rawcdn.githack.com/__REPLACE_YOUR_REPO__/master/icons/cherry-keys.png</iconUrl>-->
+    <iconUrl>https://rawcdn.githack.com/bostrot/packages-repo/tree/main/cherry-keys/icon.png</iconUrl>
     <tags>cherry-keys cherry keys keyboard</tags>
     <summary>The intuitive solution for keyboards and mice</summary>
     <description>
