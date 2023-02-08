@@ -20,8 +20,12 @@ jobs:
     - name: Install AU
       run: Install-Module au -Force
 
-    - name: Run PowerShell script
-      run: ./choco/update_all.ps1
+    - name: Install chocolatey
+      run: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+  
+    - name: Run update script
+      run: ./update_script.ps1
 
     - name: Check if changes were made
       id: check-changes
@@ -32,40 +36,9 @@ jobs:
         }
         echo "Changes were made."
         exit 0
-
-    # Install chocolatey
-    - name: Install chocolatey
-      if: steps.check-changes.outputs.exit_code == 0
-      run: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-  
-    - name: Pack and push packages
-      if: steps.check-changes.outputs.exit_code == 0
-      run: |
-        # if file is modified, commit and push
-        $git_status = $(git status -s)
-        $list = @()
-        for ($i = 0; $i -lt $git_status.Length; $i++) {
-            # Contains "choco"
-            if ($git_status[$i].Contains("choco")) {
-                # Split after second / and use first part and echo that
-                $folder = $git_status[$i].Split("/")
-                $folder = "choco/" + $folder[1]
-                # Check if folder is already in list
-                if ($list.Contains($folder)) {
-                    continue
-                }
-                # Add to list
-                $list += $folder
-                Write-Host "Packing $folder..."
-                choco pack $folder -y || exit 0
-                Write-Host "Pushing $folder..."
-                choco push $folder/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}; 
-            }
-        }
     
     - name: Commit changes
-      if: steps.check-changes.outputs.exit_code == 0
+      if: steps.check-changes.outcome == 'success'
       run: |
         git config --local user.email "eric@bostrot.com"
         git config --local user.name "Eric"
@@ -73,7 +46,7 @@ jobs:
         git commit -m "Update package"
 
     - name: Push changes
-      if: steps.check-changes.outputs.exit_code == 0
+      if: steps.check-changes.outcome == 'success'
       uses: ad-m/github-push-action@v0.6.0
       with:
         github_token: ${{ env.GITHUB_TOKEN }}
