@@ -12,7 +12,7 @@
     <version>1.0.7</version>
     <packageSourceUrl>https://github.com/bostrot/packages-repo/tree/main/choco/cherry-keys</packageSourceUrl>
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
-    <!--<owners>Bostrot</owners>-->
+    <owners>Bostrot</owners>
     <!-- ============================== -->
 
     <!-- == SOFTWARE SPECIFIC SECTION == -->
@@ -25,12 +25,17 @@
     <!-- Here is an example using Githack -->
     <iconUrl>https://rawcdn.githack.com/bostrot/packages-repo/20dff9c4b1b23e665539015fa6d2e247ecd574e1/choco/cherry-keys/icon.png</iconUrl>
     <tags>cherry-keys cherry keys keyboard</tags>
+
+    <docsUrl>https://cherryamericas.com/keys</docsUrl>
+    <mailingListUrl>https://cherryamericas.com/</mailingListUrl>
+    <bugTrackerUrl>https://cherryamericas.com/contact/</bugTrackerUrl>
+
     <summary>The intuitive solution for keyboards and mice</summary>
     <description>
-**Please Note**: This is an automatically updated package. If you find it is
-out of date by more than a day or two, please contact the maintainer(s) and
-let them know the package is no longer updating correctly.
-</description>
+    The intuitive solution for keyboards and mice. CHERRY KEYS works with almost all keyboards and mice – regardless of manufacturer. However, due to the special keys that are often specific to certain keyboards, it works best with original CHERRY products. The software runs in the background and modifies the incoming signals from the input devices according to your wishes.
+
+    **Please Note**: This is an automatically updated package. If you find it is out of date by more than a day or two, please contact the maintainer(s) and let them know the package is no longer updating correctly.
+    </description>
   </metadata>
   <files>
     <!-- this section controls what actually gets packaged into the Chocolatey package -->

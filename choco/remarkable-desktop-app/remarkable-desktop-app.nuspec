@@ -29,7 +29,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <version>3.0.4.675</version>
     <!-- <packageSourceUrl>Where is this Chocolatey package located (think GitHub)? packageSourceUrl is highly recommended for the community feed</packageSourceUrl>-->
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
-    <!--<owners>Bostrot</owners>-->
+    <owners>Bostrot</owners>
     <!-- ============================== -->
 
     <!-- == SOFTWARE SPECIFIC SECTION == -->
@@ -46,9 +46,9 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- <licenseUrl>Software License Location __REMOVE_OR_FILL_OUT__</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>-->
     <projectSourceUrl>https://github.com/bostrot/packages-repo/tree/main/choco/remarkable-desktop-app</projectSourceUrl>
-    <!--<docsUrl>At what url are the software docs located?</docsUrl>-->
-    <!--<mailingListUrl></mailingListUrl>-->
-    <!--<bugTrackerUrl></bugTrackerUrl>-->
+    <docsUrl>https://support.remarkable.com/s/article/Desktop-app</docsUrl>
+    <mailingListUrl>https://remarkable.com/</mailingListUrl>
+    <bugTrackerUrl>https://support.remarkable.com/s/contactsupport</bugTrackerUrl>
     <tags>remarkable paper tablet</tags>
     <summary>Desktop App for the reMarkable tablet</summary>
     <description>
