@@ -4,14 +4,18 @@ git config --global user.name "Eric"
 
 # Check if there are any changes in the choco folder
 $folders = Get-ChildItem -Path ./choco -Directory
+$current_dir = Get-Location
 for ($i = 0; $i -lt $folders.Length; $i++) {
+    cd $current_dir
     $folder = $folders[$i].Name
     $update_path = "./choco/$folder/update.ps1"
 
     # Check if update.ps1 exists
     if (Test-Path $update_path) {
         Write-Host "Running update script for $folder..."
+        cd ./choco/$folder
         . $update_path
+        cd $current_dir
         
         $git_status = $(git status -s)
         $matches = $(git status -s |
