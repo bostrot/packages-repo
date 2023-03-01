@@ -2,6 +2,9 @@
 git config --global user.email "eric@bostrot.com"
 git config --global user.name "Eric"
 
+# Set key
+choco apikey --key $env:CHOCO_API_KEY --source https://push.chocolatey.org/
+
 # Check if there are any changes in the choco folder
 $folders = Get-ChildItem -Path ./choco -Directory
 $current_dir = Get-Location
@@ -41,7 +44,7 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
             Write-Host "Packing $folder v$version..."
             choco pack -y || echo "Failed to pack $folder v$version"
             Write-Host "Pushing $folder v$version..."
-            choco push --source https://push.chocolatey.org/ --api-key $env:CHOCO_API_KEY ||
+            choco push --source https://push.chocolatey.org/ ||
                 echo "Failed to push $folder v$version"
         }
     }
