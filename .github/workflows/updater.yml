@@ -26,9 +26,6 @@ jobs:
   
     - name: Run PowerShell script
       run: ./choco/update_all.ps1
-
-    - name: Run Git update script
-      run: ./update_script.ps1
       env:
         CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
 
