@@ -41,7 +41,7 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
             Write-Host "Packing $folder v$version..."
             choco pack -y || echo "Failed to pack $folder v$version"
             Write-Host "Pushing $folder v$version..."
-            choco push --source https://push.chocolatey.org/ --api-key $env:CHOCO_API_KEY ||
+            choco push --source https://push.chocolatey.org/ --api-key $CHOCO_API_KEY ||
                 echo "Failed to push $folder v$version"
         }
     }
