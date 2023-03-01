@@ -14,7 +14,7 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
     if (Test-Path $update_path) {
         Write-Host "Running update script for $folder..."
         cd ./choco/$folder
-        & $update_path
+        & ./update.ps1
         cd $current_dir
         
         $git_status = $(git status -s)
