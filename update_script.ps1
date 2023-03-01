@@ -13,7 +13,9 @@ for ($i = 0; $i -lt $folders.Length; $i++) {
     # Check if update.ps1 exists
     if (Test-Path $update_path) {
         Write-Host "Running update script for $folder..."
+        cd ./choco/$folder
         & $update_path
+        cd $current_dir
         
         $git_status = $(git status -s)
         $matches = $(git status -s |
